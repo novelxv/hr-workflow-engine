@@ -1,0 +1,23 @@
+name: Scheduler tick
+
+# Hourly during WIB working hours (Monday to Friday, 07:00-18:00 WIB). Escalations,
+# finished waits, the PKWT renewal scan and webhook delivery all run on this tick.
+# GitHub may delay scheduled runs and disables them after 60 days without repository
+# activity; the tick is idempotent, so a late or doubled run is harmless.
+on:
+  schedule:
+    - cron: "0 0-11 * * 1-5"
+  workflow_dispatch:
+
+jobs:
+  tick:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run the tick
+        env:
+          API_URL: ${{ vars.API_URL }}
+          INTERNAL_TOKEN: ${{ secrets.INTERNAL_TOKEN }}
+        run: |
+          curl --fail --silent --show-error --max-time 120 \
+            -X POST "$API_URL/internal/tick" \
+            -H "x-internal-token: $INTERNAL_TOKEN"
