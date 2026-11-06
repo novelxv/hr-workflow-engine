@@ -1,0 +1,84 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f4f4f1;
+  --surface: #ffffff;
+  --surface-2: #f9f9f7;
+  --surface-3: #efeeea;
+  --border: #e2e1dc;
+  --border-strong: #cfcdc6;
+  --text: #191917;
+  --text-2: #52514e;
+  --text-3: #7d7c77;
+  --ink: #1d4d43;
+  --ink-2: #276052;
+  --ink-soft: #e3efea;
+  --link: #1c5cab;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --grid: #ebeae6;
+  --critical: #c23232;
+  --critical-soft: #fbeceb;
+  --warning: #8a5a00;
+  --warning-mark: #fab219;
+  --warning-soft: #fdf3dc;
+  --good: #0b7a0b;
+  --good-soft: #e7f4e7;
+  --info: #52514e;
+  --info-soft: #efeeea;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+  --color-fg: var(--text);
+  --color-fg-2: var(--text-2);
+  --color-fg-3: var(--text-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-soft: var(--ink-soft);
+  --color-link: var(--link);
+  --color-series-1: var(--series-1);
+  --color-grid: var(--grid);
+  --color-critical: var(--critical);
+  --color-critical-soft: var(--critical-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-good: var(--good);
+  --color-good-soft: var(--good-soft);
+  --font-sans: var(--font-plex-sans);
+  --font-mono: var(--font-plex-mono);
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-plex-sans), system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+:focus-visible {
+  outline: 2px solid var(--series-1);
+  outline-offset: 2px;
+}
+
+dialog::backdrop {
+  background: rgb(25 25 23 / 0.35);
+}
+
+dialog {
+  margin: auto;
+}
