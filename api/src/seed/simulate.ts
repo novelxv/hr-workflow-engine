@@ -198,7 +198,7 @@ export function simulate(opts: SimulationOptions): SimResult {
     balances.set(p.id, {
       entitled: annualEntitlement(p.hireDate, year).days,
       carriedOver: r.int(0, 3),
-      used: r.int(0, 4),
+      used: p.id === opts.demo.employeeId ? 2 : r.int(0, 4),
     });
   }
   const planned = new Map<number, { at: number; token: number }>();
@@ -541,12 +541,14 @@ export function simulate(opts: SimulationOptions): SimResult {
   // the occasional special leave.
   const annualLengths = [1, 1, 1, 2, 2, 2, 3, 3, 4, 5, 6, 8, 10];
   for (const emp of people.filter((p) => p.hireDate < today)) {
-    const n = Math.round(1.5 * (opts.days / 182) + r.normal() * 0.9);
+    // The demo employee keeps enough annual leave for a visitor to try a request.
+    const n = emp.id === demoEmp.id ? 1 : Math.round(1.5 * (opts.days / 182) + r.normal() * 0.9);
     const until = staged.has(emp.id) ? quietUntil : now;
     for (let k = 0; k < Math.max(0, n); k++) {
       const at = randomTime(from, until);
       const startDay = nthWorkingDay(addDays(wibDate(at), r.int(3, staged.has(emp.id) ? 10 : 30)), 1);
-      starts.push({ at, run: () => tryLeave(emp, at, "annual", startDay, r.pick(annualLengths)) });
+      const length = emp.id === demoEmp.id ? r.int(1, 2) : r.pick(annualLengths);
+      starts.push({ at, run: () => tryLeave(emp, at, "annual", startDay, length) });
     }
     if (r.chance(0.3)) {
       const at = randomTime(from, until);
